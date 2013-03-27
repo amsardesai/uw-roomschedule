@@ -20,6 +20,7 @@
 			}
 			fclose($io);
 		} else {
+			echo "$errno: $errstr";
 			die();
 		}
 		return json_decode($body);
@@ -27,6 +28,60 @@
 
 	$json = getRoomData("EIT","1015");
 
-	var_dump($json);
+	echo "\n";
+	$errcode = $json->response->meta->Status;
+
+	if ($errcode=="200") { // OK
+		$classArray = $json->response->data->result;
+		$schedule = array();
+		foreach ($classArray as $obj) {
+			$days = $obj->Days;
+			$outDays = "";
+			for ($i=0;$i<strlen($days);$i++) {
+				if (substr($days,$i,2)=="Th") {
+					$outDays .= "4";
+					$i++;
+				} else if (substr($days,$i,1)=="M") { $outDays .= "1"; }
+				else if (substr($days,$i,1)=="T") { $outDays .= "2"; }
+				else if (substr($days,$i,1)=="W") { $outDays .= "3"; }
+				else if (substr($days,$i,1)=="F") { $outDays .= "5"; }
+			}
+			$instructor = $obj->Instructor;
+			if ($instructor!="") {
+				$a = explode(",",$instructor,2);
+				$instructor = "$a[1] $a[0]";
+			}
+
+			$objSection = $obj->Section;
+			$type = $section = "";
+			if ($objSection!="") {
+				$a = explode(" ",$objSection,2);
+				$type = $a[0];
+				$section = $a[1];
+			}
+
+
+			$newSched = array(
+				"course" => "$obj->DeptAcronym $obj->Number",
+				"title" => $obj->Title,
+				"instructor" => $instructor,
+				"type" => $type,
+				"section" => $section,
+				"start" => str_replace(":","",$obj->EndTime),
+				"end" => str_replace(":","",$obj->StartTime),
+				"days" => $outDays,
+				"id" => $obj->ID,
+				"term" => $obj->Term,
+			);
+
+			var_dump($obj);
+			echo "\n";
+
+			$schedule[] = $newSched;
+		}
+		var_dump($schedule);
+	} else {
+
+	}
 
 ?>
