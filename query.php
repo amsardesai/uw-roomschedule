@@ -26,7 +26,7 @@
 		$building = strtoupper($building);
 		$body = '';
 		if (($io=@fsockopen('api.uwaterloo.ca', 80, $errno, $errstr, 30))) {
-			$sr  = "GET /public/v1/?key=$uwkey&service=CourseFromRoom&q=$building$number HTTP/1.1\r\n";
+			$sr  = "GET /public/v1/?key=$uwkey&service=CourseFromRoom&output=json&q=$building-$number HTTP/1.1\r\n";
 			$sr .= "Host: api.uwaterloo.ca\r\n";
 			$sr .= "Connection: close\r\n\r\n";
 			fputs($io, $sr);

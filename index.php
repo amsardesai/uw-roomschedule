@@ -10,11 +10,14 @@
 <form>
 <input type="text" id="building" />
 <input type="text" id="room" />
-<input type="button" id="submit" value="Submit" />
+<input type="submit" id="submit" value="Submit" />
 
 </form>
 
-<div id="output"></div>
+<table id="output" style="padding: 5px;">
+
+
+</table>
 
 </body>
 </html>
