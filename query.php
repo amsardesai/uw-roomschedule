@@ -113,8 +113,8 @@
 		}
 	}
 
-	$building = $_GET["b"];
-	$room = $_GET["r"];
+	$building = $_POST["b"];
+	$room = $_POST["r"];
 
 	$json = json_encode(processRoomData(getRoomData($building,$room)));
 	

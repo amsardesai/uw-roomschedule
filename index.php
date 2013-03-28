@@ -1,7 +1,7 @@
 <html>
 <head>
-
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Test</title>
 	<script src="jquery.js" type="text/javascript"></script>
 	<script src="main.js" type="text/javascript"></script>
 </head>
@@ -14,6 +14,7 @@
 
 </form>
 
+<div id="output"></div>
 
 </body>
 </html>
