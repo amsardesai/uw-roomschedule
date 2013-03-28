@@ -40,7 +40,13 @@ $("#submit").click(function(e) {
 		url: "query.php",
 		type: "POST",
 		data: { b: building, r: room },
-		dataType: "json"
+		dataType: "json",
+		beforeSend: function() {
+			$("#loading").css("visibility","visible");
+		},
+		success: function() {
+			$("#loading").css("visibility","hidden");
+		}
 	}).done(function(msg){processJSON(msg)});
 
 	$(this).attr("value","done!");

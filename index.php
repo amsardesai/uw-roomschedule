@@ -11,13 +11,12 @@
 <input type="text" id="building" />
 <input type="text" id="room" />
 <input type="submit" id="submit" value="Submit" />
-
+<img src="load.gif" id="loading" style="width: 25px; height: 25px;visibility: hidden;" />
 </form>
 
-<table id="output" style="padding: 5px;">
 
 
-</table>
+<table id="output" style="padding: 10px;"></table>
 
 </body>
 </html>
