@@ -30,29 +30,32 @@ for (i=0;i<json.length;i++) {
 
 $(document).ready(function() {
 
+	$("#submit").click(function(e) {
+		e.preventDefault();
+		var building = $("#building").val();
+		var room = $("#room").val();
+		$.ajax({
+			url: "query.php",
+			type: "POST",
+			data: { b: building, r: room },
+			dataType: "json",
+			beforeSend: function() {
+				$("#loading").removeClass("hide");
+			},
+			success: function() {
+				$("#loading").addClass("hide");
+			}
+		}).done(function(msg){processJSON(msg)});
+	});
 
-$("#submit").click(function(e) {
-	e.preventDefault();
-	var building = $("#building").val();
-	var room = $("#room").val();
-
-	$.ajax({
-		url: "query.php",
-		type: "POST",
-		data: { b: building, r: room },
-		dataType: "json",
-		beforeSend: function() {
-			$("#loading").css("visibility","visible");
-		},
-		success: function() {
-			$("#loading").css("visibility","hidden");
+	$('#building').keyup(function() {
+		if(this.value.length == $(this).attr('maxlength')) {
+			$('#room').val("").focus();
 		}
-	}).done(function(msg){processJSON(msg)});
+	});
 
-	$(this).attr("value","done!");
-
-
-});
+	$("#building").limitkeypress({ rexp: /^[A-Za-z0-9]*$/ });
+	$("#room").limitkeypress({ rexp: /^[0-9]*$/ });
 
 
 });
