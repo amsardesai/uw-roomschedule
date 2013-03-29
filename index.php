@@ -11,18 +11,16 @@
 <form id="topBar">
 	<label for="building">Enter <strong>building code</strong> and <strong>room number</strong>: </label>
 	<span id="textbox">
-	<input type="text" name="building" id="building" class="text" maxlength="3" placeholder="EIT" />
-	<input type="text" name="room" id="room" class="text" maxlength="4" placeholder="1015" />
+		<input type="text" name="building" id="building" class="text" maxlength="3" placeholder="EIT" />
+		<input type="text" name="room" id="room" class="text" maxlength="4" placeholder="1015" />
 	</span>
 	<input type="submit" id="submit" value="Submit" />
 	<img src="load.gif" id="loading" class="hide" />
 </form>
 
 <div id="mainContent">
-
-<div id="calendar"></div>
-<table id="output"></table>
-
+	<div id="calendar"></div>
 </div>
+
 </body>
 </html>
