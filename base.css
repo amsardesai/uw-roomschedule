@@ -34,12 +34,15 @@ body { font-family: 'Monda', sans-serif; }
 #mainContent { position: absolute; top: 60px; left:0; right:0; bottom:0; z-index: 0; padding:0; border:0; margin:0; overflow: scroll; min-width: 650px; }
 
 #mainContent #calendar { position: absolute; top:0; left:0; right:0; height: 550px; background-color: #EEE; overflow:fixed; }
-#mainContent #calendar .hour { width: 100%; height: 30px; border-bottom: 1px solid #EEE; overflow: visible; }
-#mainContent #calendar .hour .item { position: relative; margin: 0 3%; width: 90%; height: 50px; border: 2px solid #000; border-radius: 5px; }
+#mainContent #calendar .hour { width: 100%; border-bottom: 1px solid #EEE; overflow: visible; }
+#mainContent #calendar .hour .item { position: relative; margin: 0 3%; width: 90%; height: 50px; border: 2px solid #000; border-radius: 5px; background-color: #fff;  }
+#mainContent #calendar .hour .item .info { font-size: 12px; }
+#mainContent #calendar .hour .item #coursename { font-weight: 700; }
+#mainContent #calendar .hour .item #coursetitle { font-weight: 700; }
 #mainContent #calendar #toplabels { position: absolute; top:0; left:50px; right:0; height: 40px; }
 #mainContent #calendar #toplabels .week { width: 20%; height: 20px; padding-top: 20px; font-size: 13px; color: #aaa; background: transparent; float: left; display: inline-block; text-align: center; }
 #mainContent #calendar #sidetime { position: absolute; left:0; top:40px; bottom:0; width: 50px; }
-#mainContent #calendar #sidetime .hour { width: 45px; padding-right: 5px; position: relative; top: 24px; text-align: right; font-size: 13px; color: #aaa; background: transparent; }
+#mainContent #calendar #sidetime .hour { width: 45px; padding-right: 5px; position: relative; top: 44px; text-align: right; font-size: 13px; color: #aaa; background: transparent; }
 #mainContent #calendar #weekcontainer { position: absolute; left:50px; top:40px; right:0; bottom:0; }
 #mainContent #calendar #weekcontainer .week { width: 20%; height: 100%; background-color: #fff; float: left; display: inline-block; }
 
