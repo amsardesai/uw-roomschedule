@@ -20,7 +20,8 @@
 
 <div id="mainContent">
 
-<table id="output" style="padding: 10px;"></table>
+<div id="calendar"></div>
+<table id="output"></table>
 
 </div>
 </body>

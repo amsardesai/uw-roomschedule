@@ -17,8 +17,9 @@ a { color:#000; text-decoration: none; }
 /* CODE */
 
 body { font-family: 'Monda', sans-serif; }
+.hidden { visibility: hidden; }
 
-#topBar { position: absolute; top:0; left:0; right:0; height: 50px; padding:5px; margin:0; border-bottom: 1px solid #AAA; -webkit-box-shadow: 0px 0px 4px 2px #777; box-shadow: 0px 0px 4px 2px #777; min-width: 640px; overflow: hidden; background-color: #FFFCE8; }
+#topBar { position: absolute; top:0; left:0; right:0; z-index: 1; height: 50px; padding:5px; margin:0; border-bottom: 1px solid #AAA; -webkit-box-shadow: 0px 0px 4px 2px #777; box-shadow: 0px 0px 4px 2px #777; min-width: 640px; overflow: hidden; background-color: #FFFCE8; }
 #topBar label { display: inline-block; float: left; padding: 15px 5px; font-family: 'Monda', sans-serif; font-size: 20px; }
 #topBar #textbox { display: inline-block; float: left; margin: 4px 10px; border: 1px solid #DDD; border-radius: 5px; -webkit-box-shadow: 0 0 4px 2px #AAA; box-shadow: 0 0 4px 2px #AAA; background-color: #FFF; }
 #topBar #textbox input.text { margin: 5px; padding:5px; height: 29px; border: 0; font-size: 20px; font-family: "PT Mono", "Courier New", monospace; text-transform: uppercase; background-color: transparent; }
@@ -30,4 +31,17 @@ body { font-family: 'Monda', sans-serif; }
 #topBar #loading { display: inline-block; float: left; padding: 6px 11px; width: 35px; height: 35px; }
 #topBar #loading.hide { display: none; }
 
-#mainContent { position: absolute; top: 60px; left:0; right:0; bottom:0; margin:0; padding: 10px; overflow: scroll; }
+#mainContent { position: absolute; top: 60px; left:0; right:0; bottom:0; z-index: 0; padding:0; border:0; margin:0; overflow: scroll; min-width: 650px; }
+
+#mainContent #calendar { position: absolute; top:0; left:0; right:0; height: 550px; background-color: #EEE; overflow:fixed; }
+#mainContent #calendar .hour { width: 100%; height: 30px; border-bottom: 1px solid #EEE; overflow: visible; }
+#mainContent #calendar .hour .item { position: relative; margin: 0 3%; width: 90%; height: 50px; border: 2px solid #000; border-radius: 5px; }
+#mainContent #calendar #toplabels { position: absolute; top:0; left:50px; right:0; height: 40px; }
+#mainContent #calendar #toplabels .week { width: 20%; height: 20px; padding-top: 20px; font-size: 13px; color: #aaa; background: transparent; float: left; display: inline-block; text-align: center; }
+#mainContent #calendar #sidetime { position: absolute; left:0; top:40px; bottom:0; width: 50px; }
+#mainContent #calendar #sidetime .hour { width: 45px; padding-right: 5px; position: relative; top: 24px; text-align: right; font-size: 13px; color: #aaa; background: transparent; }
+#mainContent #calendar #weekcontainer { position: absolute; left:50px; top:40px; right:0; bottom:0; }
+#mainContent #calendar #weekcontainer .week { width: 20%; height: 100%; background-color: #fff; float: left; display: inline-block; }
+
+#mainContent #output { padding: 5px; border: 1px solid; margin: 5px; position: absolute; right:0; bottom:0; z-index: 2; }
+#mainContent #output td { padding: 0 3px; }
