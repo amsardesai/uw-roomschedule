@@ -1,5 +1,5 @@
-var calStart = 8;
-var calEnd = 23;
+var calStart = 9;
+var calEnd = 24;
 var calHourHeight = 60;
 var height = 0;
 
@@ -109,9 +109,16 @@ function addToCalendar(day,course) {
 	entry.css("top",vOffset);
 	entry.css("height",vHeight);
 
-	entry.append($("<div>").addClass("info").attr("id","coursename").html(course.course))
-		.append($("<div>").addClass("info").attr("id","coursetitle").html(course.title));
+	entry.append($("<div>").addClass("info")
+			.append($("<div>").addClass("coursename").html(course.course))
+			.append($("<div>").addClass("coursesection").html(" - " + course.type + " " + course.section)))
+		.append($("<div>").addClass("info coursetitle").html(course.title))
+		.append($("<div>").addClass("info").html(course.instructor));
 
+	var type = course.type;
+	if (type=="LEC") entry.addClass("lec");
+	else if (type=="TUT") entry.addClass("tut");
+	else entry.addClass("other");
 
 
 }
