@@ -1,6 +1,6 @@
 var calStart = 8;
 var calEnd = 23;
-var calHourHeight = 50;
+var calHourHeight = 60;
 var height = 0;
 
 function setUpCalendar() {
@@ -109,8 +109,8 @@ function addToCalendar(day,course) {
 	entry.css("top",vOffset);
 	entry.css("height",vHeight);
 
-	entry.append($("<span>").addClass("info").attr("id","coursename").html(course.course))
-		.append($("<span>").addClass("info").attr("id","coursetitle").html(course.title));
+	entry.append($("<div>").addClass("info").attr("id","coursename").html(course.course))
+		.append($("<div>").addClass("info").attr("id","coursetitle").html(course.title));
 
 
 
