@@ -58,7 +58,7 @@
 				return array(
 					"error" => true,
 					"number" => 4,
-					"message" => "Either this room does not exist or there are no classes in it.",
+					"message" => "Either this room does not exist or there are no classes in it or the classes haven't been put in the database.",
 				);
 			}
 			$schedule = array();
