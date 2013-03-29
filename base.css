@@ -33,7 +33,10 @@ body { font-family: 'Monda', sans-serif; }
 
 #mainContent { position: absolute; top: 60px; left:0; right:0; bottom:0; z-index: 0; padding:0; border:0; margin:0; overflow: scroll; min-width: 650px; }
 
-#mainContent #calendar { position: absolute; top:0; left:0; right:0; height: 550px; background-color: #EEE; overflow:fixed; }
+#mainContent #calendar { position: absolute; top:0; left:0; right:0; overflow:fixed; }
+#mainContent #calendar #errorcontainer { width: 300px; border: 2px solid; border-radius: 10px; background-color: #FFE0E0; border-color: #FF4040; margin: 30px; padding: 10px; }
+#mainContent #calendar #errorcontainer #number { font-size: 17px; font-weight: 700; margin: 10px; }
+#mainContent #calendar #errorcontainer #message { font-size: 15px; margin: 10px; }
 #mainContent #calendar .hour { width: 100%; border-bottom: 1px solid #EEE; overflow: visible; }
 #mainContent #calendar .hour .item { position: relative; margin: 0 3%; width: 90%; height: 50px; border: 2px solid #000; border-radius: 5px; background-color: #fff; overflow: hidden; }
 #mainContent #calendar #toplabels { position: absolute; top:0; left:50px; right:0; height: 40px; }
@@ -47,9 +50,9 @@ body { font-family: 'Monda', sans-serif; }
 #mainContent #calendar .hour .item .coursename { display: inline-block; font-size: 14px; font-weight: 700; margin-right: 3px; }
 #mainContent #calendar .hour .item .coursesection { display: inline-block; font-style: italic; }
 #mainContent #calendar .hour .item .coursetitle { font-style: italic; }
-#mainContent #calendar .hour .item.other { background-color: #FFADD9; }
-#mainContent #calendar .hour .item.lec { background-color: #ADD5FF; }
-#mainContent #calendar .hour .item.tut { background-color: #FFE9AD; }
+#mainContent #calendar .hour .item.other { background-color: #FFADD9; border-color: #FF5EB5; }
+#mainContent #calendar .hour .item.lec { background-color: #ADD5FF; border-color: #5EADFF; }
+#mainContent #calendar .hour .item.tut { background-color: #FFE9AD; border-color: #FFC526; }
 
 
 #mainContent #output { padding: 5px; border: 1px solid; margin: 5px; position: absolute; right:0; bottom:0; z-index: 2; }

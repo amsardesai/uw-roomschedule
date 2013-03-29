@@ -3,9 +3,13 @@ var calEnd = 24;
 var calHourHeight = 60;
 var height = 0;
 
-function setUpCalendar() {
+function clearCalendar() {
+	$("#calendar").html("").css("background-color","white").stop().css("opacity",1);
+}
 
-	$("#calendar").html("")
+function setUpCalendar() {
+	clearCalendar();
+	$("#calendar").css("background-color","#EEE")
 		.append($("<div>").attr("id","toplabels")
 			.append($("<div>").addClass("week").html("Monday"))
 			.append($("<div>").addClass("week").html("Tuesday"))
@@ -36,41 +40,14 @@ function setUpCalendar() {
 	height = $("#calendar .hour").outerHeight();
 	var topheight = $("#calendar #toplabels").outerHeight();
 	$("#calendar").innerHeight(height*(calEnd-calStart+1)+topheight);
-
 }
 
-function processJSON(json) {
-	//$("#output").html(" ");
-	if (json.error) {
-		alert("Error " + json.number + ": " + json.message);
-		return;
-	}
-
-	// create calendar - move this code to processJSON later
-	setUpCalendar();
-
-	for (var i=0;i<json.length;i++) {
-/*		newRow = $("<tr>")
-			.append($("<td>").attr("name","course").html(json[i].course))
-			.append($("<td>").attr("name","title").html(json[i].title))
-			.append($("<td>").attr("name","type").html(json[i].type))
-			.append($("<td>").attr("name","section").html(json[i].section))
-			.append($("<td>").attr("name","instructor").html(json[i].instructor))
-			.append($("<td>").attr("name","start").html(json[i].start))
-			.append($("<td>").attr("name","end").html(json[i].end))
-			.append($("<td>").attr("name","days").html(json[i].days))
-			.append($("<td>").attr("name","term").html(json[i].term))
-			.append($("<td>").attr("name","id").html(json[i].id));
-		$("#output").append(newRow); */
-
-		var days = json[i].days;
-		for (var j=0;j<days.length;j++) {
-			var cur = parseInt(days.charAt(j));
-			addToCalendar(cur,json[i]);
-		}
-		
-
-	}
+function errorCalendar(number,msg) {
+	clearCalendar();
+	$("#calendar")
+		.append($("<div>").attr("id","errorcontainer")
+			.append($("<div>").attr("id","number").html("Error " + number + ":"))
+			.append($("<div>").attr("id","message").html(msg)));
 }
 
 function addToCalendar(day,course) {
@@ -123,14 +100,28 @@ function addToCalendar(day,course) {
 
 }
 
+function processJSON(json) {
 
+	if (json.error) {
+		errorCalendar(json.number, json.message);
+		return;
+	}
+	setUpCalendar();
+	// params: course, title, type, section, instructor, start, end, days, term, id
+
+	for (var i=0;i<json.length;i++) {
+		var days = json[i].days;
+		for (var j=0;j<days.length;j++) {
+			var cur = parseInt(days.charAt(j));
+			addToCalendar(cur,json[i]);
+		}
+	}
+}
 
 
 
 $(document).ready(function() {
-
-	
-
+	clearCalendar();
 	$("#submit").click(function(e) {
 		e.preventDefault();
 		var building = $("#building").val();
@@ -142,6 +133,7 @@ $(document).ready(function() {
 			dataType: "json",
 			beforeSend: function() {
 				$("#loading").removeClass("hide");
+				$("#calendar").animate({ opacity:0 }, 500, "linear");
 			},
 			success: function() {
 				$("#loading").addClass("hide");
@@ -149,8 +141,8 @@ $(document).ready(function() {
 		}).done(function(msg){processJSON(msg)});
 	});
 
-	$('#building').keyup(function() {
-		if(this.value.length == $(this).attr('maxlength')) {
+	$('#building').keyup(function(e) {
+		if(this.value.length == $(this).attr('maxlength') || e.keyCode==32) {
 			$('#room').val("").focus();
 		}
 	});

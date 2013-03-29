@@ -5,19 +5,19 @@
 		if ($building=="" && $number=="") {
 			return array(
 				"error" => true,
-				"number" => 1,
-				"message" => "Nothing entered!",
+				"number" => 0,
+				"message" => "You did not enter anything!",
 			);
 		} else if ($building=="" || strlen($building)>3) {
 			return array(
 				"error" => true,
-				"number" => 2,
-				"message" => "Invalid building abbreviation!",
+				"number" => 1,
+				"message" => "Invalid building code!",
 			);
 		} else if ($number=="" || $number==0 || strlen($building)>4) {
 			return array(
 				"error" => true,
-				"number" => 3,
+				"number" => 2,
 				"message" => "Invalid room number!",
 			);
 		}
@@ -25,7 +25,7 @@
 		$uwkey = $ini["uwapikey"];
 		$building = strtoupper($building);
 		$body = '';
-		if (($io=@fsockopen('api.uwaterloo.ca', 80, $errno, $errstr, 30))) {
+		if (($io=@fsockopen('api.uwaterloo.ca', 80, $errno, $errstr, 5))) {
 			$sr  = "GET /public/v1/?key=$uwkey&service=CourseFromRoom&output=json&q=$building-$number HTTP/1.1\r\n";
 			$sr .= "Host: api.uwaterloo.ca\r\n";
 			$sr .= "Connection: close\r\n\r\n";
@@ -41,7 +41,7 @@
 		} else {
 			return array(
 				"error" => true,
-				"number" => 0,
+				"number" => 5,
 				"message" => "Networking Error $errno: $errstr",
 			);
 		}
@@ -58,7 +58,7 @@
 				return array(
 					"error" => true,
 					"number" => 4,
-					"message" => "No classes in this room!",
+					"message" => "Either this room does not exist or there are no classes in it.",
 				);
 			}
 			$schedule = array();
@@ -107,17 +107,14 @@
 		} else {
 			return array(
 				"error" => true,
-				"number" => $errcode,
-				"message" => $json->response->meta->Message,
+				"number" => 6,
+				"message" => "HTTP Error $errcode: $json->response->meta->Message",
 			);
 		}
 	}
 
 	$building = $_POST["b"];
 	$room = $_POST["r"];
-
-	$json = json_encode(processRoomData(getRoomData($building,$room)));
-	
-	echo $json;
+	echo json_encode(processRoomData(getRoomData($building,$room)));
 
 ?>
