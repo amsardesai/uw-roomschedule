@@ -42,7 +42,7 @@
 			return array(
 				"error" => true,
 				"number" => 5,
-				"message" => "Networking Error $errno: $errstr",
+				"message" => "Networking Error $errno: <ul><li>$errstr</li></ul>",
 			);
 		}
 		return json_decode($body);
@@ -58,7 +58,7 @@
 				return array(
 					"error" => true,
 					"number" => 4,
-					"message" => "Either this room does not exist or there are no classes in it or the classes haven't been put in the database.",
+					"message" => "Not found! This could be due to the following: <ul><li>This room does not exist</li><li>There are no classes in this room</li><li>The classes haven't been put in the database</li></ul>",
 				);
 			}
 			$schedule = array();
@@ -108,7 +108,7 @@
 			return array(
 				"error" => true,
 				"number" => 6,
-				"message" => "HTTP Error $errcode: $json->response->meta->Message",
+				"message" => "HTTP Error $errcode: <ul><li> $json->response->meta->Message </li></ul>",
 			);
 		}
 	}

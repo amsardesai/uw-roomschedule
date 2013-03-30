@@ -25,8 +25,8 @@ strong { font-weight: bold; }
 #topBar #textbox { display: inline-block; float: left; margin: 4px 10px; border: 1px solid #DDD; border-radius: 5px; -webkit-box-shadow: 0 0 4px 2px #AAA; box-shadow: 0 0 4px 2px #AAA; background-color: #FFF; }
 #topBar #textbox input.text { margin: 5px; padding:5px; height: 29px; border: 0; font-size: 20px; font-family: "PT Mono", "Courier New", monospace; text-transform: uppercase; background-color: transparent; }
 #topBar #textbox input.text:focus { outline: none; }
-#topBar #textbox input#building { width: 48px; margin-right: 0; border-right:0; }
-#topBar #textbox input#room { width: 60px; margin-left:0; border-left:0; }
+#topBar #textbox input#building { width: 48px; margin-right: 0; border-right:0; float:left; }
+#topBar #textbox input#room { width: 60px; margin-left:0; border-left:0; float:left; }
 #topBar input#submit { display: inline-block; float: left; margin: 4px 10px; padding: 0 7px; height: 40px; border: 1px solid #999; border-radius: 5px; -webkit-box-shadow: 0 0 4px 2px #666; box-shadow: 0 0 4px 2px #666; font-family: 'Monda', sans-serif; font-size: 20px; cursor: pointer; background-color: #EFEFEF; color: #222; }
 #topBar input#submit:hover { background-color: #DDD; }
 #topBar #loading { display: inline-block; float: left; padding: 6px 11px; width: 35px; height: 35px; }
@@ -35,9 +35,13 @@ strong { font-weight: bold; }
 #mainContent { position: absolute; top: 60px; left:0; right:0; bottom:0; z-index: 0; padding:0; border:0; margin:0; overflow: scroll; min-width: 650px; }
 
 #mainContent #calendar { position: absolute; top:0; left:0; right:0; overflow:fixed; }
-#mainContent #calendar #errorcontainer { width: 300px; border: 2px solid; border-radius: 10px; background-color: #FFE0E0; border-color: #FF4040; margin: 30px; padding: 10px; }
+#mainContent #calendar #welcomecontainer { width: 300px; line-height: 1.5; font-size: 18px; border: 2px solid; border-radius: 10px; background-color: #FFFDBD; border-color: #D9D43F; margin: 30px 0 0 50px; padding: 15px 20px; }
+#mainContent #calendar #welcomecontainer div { line-height: 1.4; margin: 5px; font-size: 15px; }
+#mainContent #calendar #welcomecontainer div a { font-weight: 700; }
+#mainContent #calendar #errorcontainer { width: 300px; line-height: 1.5; border: 2px solid; border-radius: 10px; background-color: #FFE0E0; border-color: #FF4040; margin: 30px 0 0 50px; padding: 10px 15px; }
 #mainContent #calendar #errorcontainer #number { font-size: 17px; font-weight: 700; margin: 10px; }
 #mainContent #calendar #errorcontainer #message { font-size: 15px; margin: 10px; }
+#mainContent #calendar #errorcontainer #message ul li { list-style: circle; margin: 5px 5px 0 25px; }
 #mainContent #calendar .hour { width: 100%; border-bottom: 1px solid #EEE; overflow: visible; }
 #mainContent #calendar .hour .item { position: relative; margin: 0 3%; width: 90%; height: 50px; border: 2px solid #000; border-radius: 5px; background-color: #fff; overflow: hidden; }
 #mainContent #calendar #toplabels { position: absolute; top:0; left:50px; right:0; height: 40px; }

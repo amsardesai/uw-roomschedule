@@ -42,6 +42,15 @@ function setUpCalendar() {
 	$("#calendar").innerHeight(height*(calEnd-calStart+1)+topheight);
 }
 
+function welcomeCalendar() {
+	clearCalendar();
+	var text = "Welcome to the University of Waterloo <strong>Room Schedule Finder</strong>.<br />";
+	text += "<div>Enter the code for the room or lecture hall in the textbox above to begin.</div>";
+	text += "<div>This application is not affiliated with the University of Waterloo. This tool has been created by <a href='http://ankitsardesai.ca'>Ankit Sardesai</a>.</div>";
+	$("#calendar")
+		.append($("<div>").attr("id","welcomecontainer").html(text));
+}
+
 function errorCalendar(number,msg) {
 	clearCalendar();
 	$("#calendar")
@@ -121,7 +130,7 @@ function processJSON(json) {
 
 
 $(document).ready(function() {
-	clearCalendar();
+	welcomeCalendar();
 	$("#submit").click(function(e) {
 		e.preventDefault();
 		var building = $("#building").val();
@@ -142,9 +151,11 @@ $(document).ready(function() {
 	});
 
 	$('#building').keyup(function(e) {
-		if(this.value.length == $(this).attr('maxlength') || e.keyCode==32) {
-			$('#room').val("").focus();
-		}
+		if(this.value.length == $(this).attr('maxlength') || e.keyCode==32) $('#room').val("").focus();
+	});
+
+	$('#room').keyup(function(e) {
+		if(e.keyCode==8 && $(this).val()=="") $('#building').focus();
 	});
 
 	$("#building").limitkeypress({ rexp: /^[A-Za-z0-9]*$/ });
