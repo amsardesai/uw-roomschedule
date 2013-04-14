@@ -65,6 +65,8 @@ function addToCalendar(day,course) {
 	var starthour = Math.floor(start/100);
 	var startminute = start % 100;
 	var endhour = Math.floor(end/100);
+	starthour -= endhour < starthour || endhour >= 22 ? 12 : 0 ;
+	endhour -= endhour >= 22 ? 12 : 0;
 	var endminute = end % 100;
 	var lengthhour = endhour - starthour;
 	var lengthminute = endminute - startminute;
