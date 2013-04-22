@@ -5,6 +5,7 @@ var height = 0;
 
 function clearCalendar() {
 	$("#calendar").html("").css("background-color","white").stop().css("opacity",1);
+	$("#term").html("");
 }
 
 function setUpCalendar() {
@@ -107,6 +108,14 @@ function addToCalendar(day,course) {
 	if (type=="LEC") entry.addClass("lec");
 	else if (type=="TUT") entry.addClass("tut");
 	else entry.addClass("other");
+
+	var termmonth = course.term % 10;
+	var termyear = 1900 + Math.floor(course.term / 10);
+	var termstring = "";
+	if (termmonth >= 9) termstring = "Fall " + termyear;
+	else if (termmonth >= 5) termstring = "Spring " + termyear;
+	else termstring = "Winter " + termyear;
+	$("#term").html(termstring);
 
 
 }

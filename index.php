@@ -16,6 +16,7 @@
 	</span>
 	<input type="submit" id="submit" value="Submit" />
 	<img src="load.gif" id="loading" class="hide" />
+	<span id="term">Fall 2012</span>
 </form>
 
 <div id="mainContent">
