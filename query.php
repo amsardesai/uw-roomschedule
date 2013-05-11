@@ -6,6 +6,21 @@
 * @copyright 2013 Ankit Sardesai
 */
 
+
+/**
+* Outputs an easy to interpret error object given the input error
+* @param integer $number The error number
+* @param string $message The error message
+* @return object A clean error object
+*/
+function error_object($number,$message) {
+	return array(
+		"error" => true,
+		"number" => $number,
+		"message" => $message
+	);
+}
+
 /**
 * Gets room data from UWaterloo API website and returns an object interpretation of the returned JSON code.
 * @param string $building The building being queried
@@ -13,25 +28,12 @@
 * @return object JSON data containing the schedule of the room
 */
 function getRoomData($building,$number) {
-	if ($building=="" && $number=="") {
-		return array(
-			"error" => true,
-			"number" => 0,
-			"message" => "You did not enter anything!",
-		);
-	} else if ($building=="" || strlen($building)>3) {
-		return array(
-			"error" => true,
-			"number" => 1,
-			"message" => "Invalid building code!",
-		);
-	} else if ($number=="" || $number==0 || strlen($building)>4) {
-		return array(
-			"error" => true,
-			"number" => 2,
-			"message" => "Invalid room number!",
-		);
-	}
+	if ($building=="" && $number=="")
+		return error_object(0, "You did not enter anything!");
+	else if ($building=="" || strlen($building)>3)
+		return error_object(1, "Invalid building code!");
+	else if ($number=="" || $number==0 || strlen($building)>4)
+		return error_object(2, "Invalid room number!");
 	$ini = parse_ini_file("config.ini");
 	$uwkey = $ini["uwapikey"];
 	$building = strtoupper($building);
@@ -45,17 +47,9 @@ function getRoomData($building,$number) {
 		do {
 			$header .= fgets($io, 128);
 		} while (strpos($header, "\r\n\r\n" ) === false);
-		while (!feof($io)) {
-			$body .= fgets($io, 128);
-		}
+		while (!feof($io)) $body .= fgets($io, 128);
 		fclose($io);
-	} else {
-		return array(
-			"error" => true,
-			"number" => 5,
-			"message" => "Networking Error $errno: <ul><li>$errstr</li></ul>",
-		);
-	}
+	} else return error_object(5, "Networking Error $errno: <ul><li>$errstr</li></ul>");
 	return json_decode($body);
 }
 
@@ -69,15 +63,10 @@ function processRoomData($json) {
 	$errcode = $json->response->meta->Status;
 	if ($errcode=="200") { // OK
 		$classArray = $json->response->data->result;
-		if (count($classArray)==0) {
-			return array(
-				"error" => true,
-				"number" => 4,
-				"message" => "Not found! This could be due to the following: <ul><li>This 
-					room does not exist</li><li>There are no classes in this room</li><li>The 
-					classes haven't been put in the database</li></ul>",
-			);
-		}
+		if (count($classArray)==0)
+			return error_object(4, "Not found! This could be due to the following: 
+				<ul><li>This room does not exist</li><li>There are no classes in this 
+				room</li><li>The classes haven't been put in the database</li></ul>");
 		$schedule = array();
 		foreach ($classArray as $obj) {
 			$days = $obj->Days;
@@ -122,11 +111,7 @@ function processRoomData($json) {
 		}
 		return $schedule;
 	} else {
-		return array(
-			"error" => true,
-			"number" => 6,
-			"message" => "HTTP Error $errcode: <ul><li> $json->response->meta->Message </li></ul>",
-		);
+		return error_object(6, "HTTP Error $errcode: <ul><li> $json->response->meta->Message </li></ul>");
 	}
 }
 
