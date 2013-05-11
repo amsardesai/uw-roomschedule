@@ -1,8 +1,8 @@
 <?php
 
 /**
-* This static class connects to the UW API website, gets room data for the specified room, 
-* and then gives a friendly JSON output.
+* This static class is called through AJAX and connects to the UW API website, gets room 
+* data for the specified room, and then gives a friendly JSON output.
 * @author Ankit Sardesai
 * @copyright 2013 Ankit Sardesai
 */
