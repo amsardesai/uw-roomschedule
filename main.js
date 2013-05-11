@@ -1,13 +1,14 @@
-var calStart = 9;
-var calEnd = 24;
-var calHourHeight = 60;
-var height = 0;
+var calStart = 9;		// Starting hour of calendar
+var calEnd = 24;		// Ending hour of calendar
+var calHourHeight = 60;	// Height in pixels of each calendar hour
 
+// Applies necessary CSS to clear the calendar
 function clearCalendar() {
 	$("#calendar").html("").css("background-color","white").stop().css("opacity",1);
 	$("#term").html("");
 }
 
+// Sets up the frame of the calendar
 function setUpCalendar() {
 	clearCalendar();
 	$("#calendar").css("background-color","#EEE")
@@ -38,11 +39,12 @@ function setUpCalendar() {
 	}
 
 	$("#calendar .hour").height(calHourHeight);
-	height = $("#calendar .hour").outerHeight();
+	var height = $("#calendar .hour").outerHeight();
 	var topheight = $("#calendar #toplabels").outerHeight();
 	$("#calendar").innerHeight(height*(calEnd-calStart+1)+topheight);
 }
 
+// Sets up the splash screen
 function welcomeCalendar() {
 	clearCalendar();
 	var text = "Welcome to the University of Waterloo <strong>Room Schedule Finder</strong>.<br />";
@@ -52,6 +54,7 @@ function welcomeCalendar() {
 		.append($("<div>").attr("id","welcomecontainer").html(text));
 }
 
+// Sets up the error screen with the specified error number and message
 function errorCalendar(number,msg) {
 	clearCalendar();
 	$("#calendar")
@@ -60,6 +63,7 @@ function errorCalendar(number,msg) {
 			.append($("<div>").attr("id","message").html(msg)));
 }
 
+// Adds a specific item to the calendar
 function addToCalendar(day,course) {
 	var start = parseInt(course.start);
 	var end = parseInt(course.end);
@@ -116,12 +120,10 @@ function addToCalendar(day,course) {
 	else if (termmonth >= 5) termstring = "Spring " + termyear;
 	else termstring = "Winter " + termyear;
 	$("#term").html(termstring);
-
-
 }
 
+// Processes JSON code from PHP script
 function processJSON(json) {
-
 	if (json.error) {
 		errorCalendar(json.number, json.message);
 		return;
@@ -138,8 +140,7 @@ function processJSON(json) {
 	}
 }
 
-
-
+// Startup script
 $(document).ready(function() {
 	welcomeCalendar();
 	$("#submit").click(function(e) {
@@ -171,6 +172,4 @@ $(document).ready(function() {
 
 	$("#building").limitkeypress({ rexp: /^[A-Za-z0-9]*$/ });
 	$("#room").limitkeypress({ rexp: /^[0-9]*$/ });
-
-
 });
