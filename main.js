@@ -1,6 +1,6 @@
-var calStart = 9;		// Starting hour of calendar
-var calEnd = 24;		// Ending hour of calendar
-var calHourHeight = 60;	// Height in pixels of each calendar hour
+var calStart = 9;           // Starting hour of calendar
+var calEnd = 24;            // Ending hour of calendar
+var calHourHeight = 60;     // Height in pixels of each calendar hour
 
 // Applies necessary CSS to clear the calendar
 function clearCalendar() {
@@ -65,8 +65,8 @@ function errorCalendar(number,msg) {
 
 // Adds a specific item to the calendar
 function addToCalendar(day,course) {
-	var start = parseInt(course.start);
-	var end = parseInt(course.end);
+	var start = parseInt(course.start,10);
+	var end = parseInt(course.end,10);
 	var starthour = Math.floor(start/100);
 	var startminute = start % 100;
 	var endhour = Math.floor(end/100);
@@ -134,7 +134,7 @@ function processJSON(json) {
 	for (var i=0;i<json.length;i++) {
 		var days = json[i].days;
 		for (var j=0;j<days.length;j++) {
-			var cur = parseInt(days.charAt(j));
+			var cur = parseInt(days.charAt(j), 10);
 			addToCalendar(cur,json[i]);
 		}
 	}
@@ -159,7 +159,7 @@ $(document).ready(function() {
 			success: function() {
 				$("#loading").addClass("hide");
 			}
-		}).done(function(msg){processJSON(msg)});
+		}).done(function(msg){processJSON(msg);});
 	});
 
 	$('#building').keyup(function(e) {
@@ -167,7 +167,7 @@ $(document).ready(function() {
 	});
 
 	$('#room').keyup(function(e) {
-		if(e.keyCode==8 && $(this).val()=="") $('#building').focus();
+		if(e.keyCode==8 && $(this).val()==="") $('#building').focus();
 	});
 
 	$("#building").limitkeypress({ rexp: /^[A-Za-z0-9]*$/ });
