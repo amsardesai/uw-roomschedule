@@ -27,7 +27,7 @@ function error_object($number,$message) {
 * @param integer $number The room number being queried
 * @return object JSON data containing the schedule of the room
 */
-function getRoomData($building,$number) {
+function get_room_data($building,$number) {
 	if ($building=="" && $number=="")
 		return error_object(0, "You did not enter anything!");
 	else if ($building=="" || strlen($building)>3)
@@ -54,11 +54,11 @@ function getRoomData($building,$number) {
 }
 
 /**
-* Processes the output of getRoomData and converts it into a cleaner and easier format
+* Processes the output of get_room_data and converts it into a cleaner and easier format
 * @param object $json JSON object containing room data returned directly from the API
 * @return object Processed, cleaner version of the input object
 */
-function processRoomData($json) {
+function process_room_data($json) {
 	if (is_array($json)) return $json;
 	$errcode = $json->response->meta->Status;
 	if ($errcode=="200") { // OK
@@ -118,6 +118,6 @@ function processRoomData($json) {
 header("Content-type: application/json;");
 $building = $_POST["b"];
 $room = $_POST["r"];
-echo json_encode(processRoomData(getRoomData($building,$room)));
+echo json_encode(process_room_data(get_room_data($building,$room)));
 
 ?>
