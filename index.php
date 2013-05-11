@@ -1,3 +1,8 @@
+<!-- 
+- Uses the UWaterloo API to retrieve the class schedule for a room on campus
+- @author Ankit Sardesai
+-->
+<!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -16,7 +21,7 @@
 	</span>
 	<input type="submit" id="submit" value="Submit" />
 	<img src="load.gif" id="loading" class="hide" />
-	<span id="term">Fall 2012</span>
+	<span id="term"></span>
 </form>
 
 <div id="mainContent">
