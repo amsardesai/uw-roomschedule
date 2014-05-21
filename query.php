@@ -39,19 +39,25 @@ class QueryUW {
 		$ini = parse_ini_file("config.ini");
 		$uwkey = $ini["uwapikey"];
 		$building = strtoupper($building);
-		$body = '';
+		$body = $header = "";
 		if (($io=@fsockopen('api.uwaterloo.ca', 80, $errno, $errstr, 5))) {
-			$sr  = "GET /public/v1/?key=$uwkey&service=CourseFromRoom&output=json&q=$building-$number HTTP/1.1\r\n";
+			$sr  = "GET /v2/buildings/$building/$number/courses.json?key=$uwkey HTTP/1.1\r\n";
 			$sr .= "Host: api.uwaterloo.ca\r\n";
 			$sr .= "Connection: close\r\n\r\n";
-			fputs($io, $sr);
-			$header = '';
-			do {
-				$header .= fgets($io, 128);
-			} while (strpos($header, "\r\n\r\n" ) === false);
-			while (!feof($io)) $body .= fgets($io, 128);
+			fwrite($io, $sr);
+			$response = "";
+			while(!feof($io)) $response .= fgets($io);
+			list($header, $body) = explode("\r\n\r\n", $response, 2);
+			
+			$lpos = strpos($body, '{');
+			$bodylength = strrpos($body, '}') - strlen($body) + 1;
+			$bodylength = $bodylength === 0 ? strlen($body) : $bodylength;
+
+			$body = substr($body, $lpos, $bodylength);
+
 			fclose($io);
 		} else return self::error_object(5, "Networking Error $errno: <ul><li>$errstr</li></ul>");
+
 		return json_decode($body);
 	}
 
@@ -62,16 +68,17 @@ class QueryUW {
 	*/
 	private static function process_room_data($json) {
 		if (is_array($json)) return $json;
-		$errcode = $json->response->meta->Status;
-		if ($errcode=="200") { // OK
-			$classArray = $json->response->data->result;
+		$errcode = $json->meta->status;
+		$errmsg = $json->meta->message;
+		if ($errcode==200) { // OK
+			$classArray = $json->data;
 			if (count($classArray)==0)
 				return self::error_object(4, "Not found! This could be due to the following: 
 					<ul><li>This room does not exist</li><li>There are no classes in this 
 					room</li><li>The classes haven't been put in the database</li></ul>");
 			$schedule = array();
 			foreach ($classArray as $obj) {
-				$days = $obj->Days;
+				$days = $obj->weekdays;
 				$outDays = "";
 				for ($i=0;$i<strlen($days);$i++) {
 					if (substr($days,$i,2)=="Th") {
@@ -82,13 +89,15 @@ class QueryUW {
 					else if (substr($days,$i,1)=="W") { $outDays .= "3"; }
 					else if (substr($days,$i,1)=="F") { $outDays .= "5"; }
 				}
-				$instructor = $obj->Instructor;
-				if ($instructor!="") {
-					$a = explode(",",$instructor,2);
+
+				$instructor = "";
+				$instructorArray = $obj->instructors;
+				if (!empty($instructorArray)) {
+					$a = explode(",",$instructorArray[0],2);
 					$instructor = "$a[1] $a[0]";
 				}
 
-				$objSection = $obj->Section;
+				$objSection = $obj->section;
 				$type = $section = "";
 				if ($objSection!="") {
 					$a = explode(" ",$objSection,2);
@@ -97,23 +106,27 @@ class QueryUW {
 				}
 
 				$newSched = array(
-					"course" => "$obj->DeptAcronym $obj->Number",
-					"title" => $obj->Title,
+					"course" => "$obj->subject $obj->catalog_number",
+					"title" => $obj->title,
 					"instructor" => $instructor,
 					"type" => $type,
 					"section" => $section,
-					"start" => str_replace(":","",$obj->StartTime),
-					"end" => str_replace(":","",$obj->EndTime),
+					"start" => str_replace(":","",$obj->start_time),
+					"end" => str_replace(":","",$obj->end_time),
 					"days" => $outDays,
-					"id" => $obj->ID,
-					"term" => $obj->Term,
+					"id" => $obj->class_number,
+					"term" => $obj->term,
 				);
 
 				$schedule[] = $newSched;
 			}
 			return $schedule;
+		} else if ($errcode==204) {
+			return self::error_object(4, "Not found! This could be due to the following: 
+								<ul><li>This room does not exist</li><li>There are no classes in this 
+								room</li><li>The classes haven't been put in the database</li></ul>");
 		} else {
-			return self::error_object(6, "HTTP Error $errcode: <ul><li> $json->response->meta->Message </li></ul>");
+			return self::error_object(6, "HTTP Error $errcode: <ul><li> $errmsg </li></ul>");
 		}
 	}
 
